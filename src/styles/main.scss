@@ -1,0 +1,159 @@
+@import 'partials/typography';
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body, html {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: {
+    size: cover;
+    position: center center;
+    color: #fff;
+    repeat: no-repeat;
+    image: url(../images/bg/2.jpg);
+    attachment: fixed;
+  }
+
+  margin-bottom: 100px;
+}
+
+header {
+  background: rgba(0,0,0,0.75);
+  padding: 200px 0;
+  text-align: center;
+
+  @media (max-width: 600px) {
+    padding: 2em 0;
+  }
+
+  .container {
+    width: 95%;
+    margin: 0 auto;
+  }
+
+  .masthead {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+
+    a {
+      color: #fff;
+      text-decoration: none;
+
+      &:hover {
+        color: #FF3C00;
+      }
+    }
+  }
+
+  nav {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+
+    ul {
+      list-style: none;
+      padding: 0;
+
+      li {
+        display: inline-block;
+        margin-left: 10px;
+      }
+    }
+
+    a {
+      color: #fff;
+
+      @media (max-width: 600px) {
+        font-size: 1.5em;
+      }
+    }
+  }
+}
+
+.container {
+  width: 600px;
+  margin: 0 auto;
+
+  @media (max-width: 600px) {
+    width: 95%;
+    overflow: hidden;
+  }
+}
+
+#content {
+  background: #fff;
+  padding: 1em 0;
+  min-height: 350px;
+
+  article {
+    p {
+      margin: 1em 0;
+    }
+
+    pre {
+      code {
+        font-size: 0.75em;
+        overflow: scroll;
+      }
+    }
+  }
+}
+
+.about {
+  img {
+    float: right;
+    display: block;
+    height: 250px;
+    margin: 0 auto;
+    border-radius: 50%;
+  }
+}
+
+.articles {
+  list-style: none;
+  margin: 50px 0 0 0;
+  padding: 0;
+
+  blockquote {
+    padding: 0;
+    margin: 0;
+  }
+
+  .continue {
+    float: right;
+  }
+
+  time {
+    display: block;
+  }
+}
+
+#disqus_thread {
+  margin-top: 5em;
+}
+
+footer {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 100px;
+  width: 100%;
+  background: #fff;
+  padding-top: 50px;
+
+  a {
+    float: right;
+  }
+}

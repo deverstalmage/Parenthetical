@@ -1,0 +1,10 @@
+extends layout
+
+block content
+  ul.articles
+    each article in articles
+      li
+        a(href=article.path).title= article.title
+        time(datetime=article.date)= article.date
+        blockquote.excerpt!= article.excerpt
+        a(href=article.path).continue Continue reading &raquo;

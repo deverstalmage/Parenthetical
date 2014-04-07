@@ -1,0 +1,431 @@
+<!DOCTYPE html><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><html><head><title>Building a blog with Metalsmith.io - Parenthetical</title><link href="http://fonts.googleapis.com/css?family=Arvo:400,700,400italic,700italic|Bitter:400,700,400italic" rel="stylesheet" type="text/css"><link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet" type="text/css"><link href="styles/main.css" rel="stylesheet" type="text/css"><link rel="shortcut icon" href="favicon.ico"><link rel="apple-itouch-icon" href="favicon.png"></head><body><div class="wrap"><header><div class="masthead"><a href="http://deve.rs/">deve.rs</a><a href="/blog/" class="blog">/blog/</a></div><div class="container"><h1>Building a blog with Metalsmith.io</h1><nav><ul><li><a href="/blog/"><i class="fa fa-home"></i></a></li><li><a href="/blog/about/"><i class="fa fa-question-circle"></i></a></li></ul></nav></div></header><div id="content"><div class="container"><time datetime="4/6/2014">4/6/2014</time><article><p>a npm module. used to build static sites and such.. essentially just runs input on a directory of files and outputs the tranformed files into another dir</p>
+<p>seems abstract at first, but it’s very straight forward, and actually powerful BECAUSE of how abstracted it is</p>
+<p>the examplss on the site reference that</p>
+<p>you could combine this with a dir watcher to great success</p>
+<p>some of the examples are a little funky, I got stupidly caught up with the use of make. All make is doing is (I think) is installing npm dependencies, and running the metalsmith command/node_module bin</p>
+<p>presumably metalsmith runs the commands in order? not sure - the json file uses an object, which I think can’t guarantee an order of the items.</p>
+<p>making a full blog site, all concatinations and minifications and building should be included
+supports</p>
+<ul>
+<li>coffeescript</li>
+<li>uglify</li>
+</ul>
+<p>so let’s dig in</p>
+<p>opened up all the plugins that seem useful - most of them</p>
+<p>begin by setting up file structure - docs say ./src is the default so I’ll stick with it</p>
+<p>info on directory structure</p>
+<pre><code>blog
+├── src
+├── package.json
+├── blog.js
+├── metalsmith.json
+</code></pre><p>going in order, plugins:</p>
+<p>collections - says blog in the desc, sounds like a good idea to use. docs kinda murky, let’s just add that shit in, why not</p>
+<p>it’ll sort by date in reverse I assume</p>
+<p>coffee - not sure if you can use the json for this… going with a build.js file. had to clone github repo directly</p>
+<p><em>blog.js</em></p>
+<pre><code class="lang-javascript">var Metalsmith = require(&#39;metalsmith&#39;),
+    collections = require(&#39;metalsmith-collections&#39;),
+    coffee = require(&#39;metalsmith-coffee&#39;);
+
+Metalsmith(__dirname)
+  .use(collections({
+    articles: {
+      sortBy: &#39;date&#39;,
+      reverse: true
+    }
+  }))
+  .use(coffee())
+  .build();
+</code></pre>
+<p>next up</p>
+<p>drafts - sounds useful, all you do is put draft: true in the metadata and you have a draft. ez-pz</p>
+<p>excerpts - so all these plugins really do is expose a tiny bit of functionality that gives data to the metalsmith object</p>
+<p><em>blog.js</em></p>
+<pre><code class="lang-javascript">var Metalsmith = require(&#39;metalsmith&#39;),
+    collections = require(&#39;metalsmith-collections&#39;),
+    coffee = require(&#39;metalsmith-coffee&#39;),
+    drafts = require(&#39;metalsmith-drafts&#39;),
+    excerpts = require(&#39;metalsmith-excerpts&#39;);
+
+Metalsmith(__dirname)
+  .use(collections({
+    articles: {
+      sortBy: &#39;date&#39;,
+      reverse: true
+    }
+  }))
+  .use(coffee())
+  .use(drafts())
+  .build();
+</code></pre>
+<p>markdown - of course this is essential, all posts will be written in markdown</p>
+<p>it appears all these changes should be atomic and able to be put in any order as speculated - though permalinks only looks for html files… so they have to go from markdown to html first? presumably since we’re calling them in order, although I also have to assume they’re async</p>
+<p>permalinks - yes. let’s configure it to have nice mapping. we’ll take advantage of the fact that pages will be /:slug and posts will be /YYYY/MM/DD/:title or /:date/:title</p>
+<p><em>blog.js</em></p>
+<pre><code class="lang-javascript">var Metalsmith = require(&#39;metalsmith&#39;),
+    collections = require(&#39;metalsmith-collections&#39;),
+    coffee = require(&#39;metalsmith-coffee&#39;),
+    drafts = require(&#39;metalsmith-drafts&#39;),
+    excerpts = require(&#39;metalsmith-excerpts&#39;),
+    markdown = require(&#39;metalsmith-markdown&#39;),
+    permalinks = require(&#39;metalsmith-permalinks&#39;);
+
+Metalsmith(__dirname)
+  .use(collections({
+    articles: {
+      sortBy: &#39;date&#39;,
+      reverse: true
+    }
+  }))
+  .use(coffee())
+  .use(drafts())
+  .use(markdown({
+    smartypants: true
+  }))
+  .use(permalinks({
+    pattern: &#39;:date/:title&#39;
+  }))
+  .build();
+</code></pre>
+<p>didn’t do /yyyy/mm/dd like it said it would..</p>
+<p>write a simple plugin, super ez</p>
+<pre><code class="lang-javascript">function parseDate(files, metalsmith, done) {
+  for(var file in files) {
+    if(files[file].date) {
+      var date = new Date(files[file].date);
+      files[file].year = date.getFullYear();
+      files[file].month = date.getMonth();
+      files[file].day = date.getDate();
+    }
+  }
+  done();
+}
+</code></pre>
+<p>and modify the permalinks call like so:</p>
+<pre><code class="lang-javascript">.use(permalinks({
+  pattern: &#39;:year/:month/:date/:title&#39;
+}))
+</code></pre>
+<p>alright now onto other various plugins, before we get to the serious templating stuff</p>
+<pre><code class="lang-javascript">var Metalsmith = require(&#39;metalsmith&#39;),
+    collections = require(&#39;metalsmith-collections&#39;),
+    coffee = require(&#39;metalsmith-coffee&#39;),
+    drafts = require(&#39;metalsmith-drafts&#39;),
+    excerpts = require(&#39;metalsmith-excerpts&#39;),
+    markdown = require(&#39;metalsmith-markdown&#39;),
+    permalinks = require(&#39;metalsmith-permalinks&#39;);
+    clean = require(&#39;./lib/clean&#39;);
+
+Metalsmith(__dirname)
+  .use(collections({
+    articles: {
+      sortBy: &#39;date&#39;,
+      reverse: true
+    }
+  }))
+  .use(coffee())
+  .use(drafts())
+  .use(markdown({
+    smartypants: true
+  }))
+  .use(parseDate)
+  .use(permalinks({
+    pattern: &#39;:year/:month/:day/:title&#39;
+  }))
+  .use(excerpts())
+  .use(clean({
+    match: [&#39;.DS_Store&#39;]
+  }))
+  .build();
+
+
+function parseDate(files, metalsmith, done) {
+  for(var file in files) {
+    if(files[file].date) {
+      var date = new Date(files[file].date);
+      files[file].year = date.getFullYear();
+      files[file].month = date.getMonth();
+      files[file].day = date.getDate();
+    }
+  }
+  done();
+}
+</code></pre>
+<p>turned clean into a plugin, very easy</p>
+<pre><code class="lang-javascript">var minimatch = require(&#39;minimatch&#39;),
+    path = require(&#39;path&#39;);
+
+/**
+ * Expose `plugin`.
+ */
+
+module.exports = plugin;
+
+/**
+ * Metalsmith plugin to hide drafts from the output.
+ *
+ * @return {Function}
+ */
+
+function plugin(options) {
+  options = options || {match: [&#39;.DS_Store&#39;]};
+  return function(files, metalsmith, done) {
+    setImmediate(done);
+    for(var file in files) {
+      var matches = options.match;
+      for(var match in matches) {
+        if(minimatch(path.basename(file), match)) delete files[file];
+      }
+    }
+  };
+}
+</code></pre>
+<p>folder structure looks like</p>
+<p>blog
+├── src
+|       |
+|       ├── articles
+|       |   |
+|       |   ├── test_post.md
+├── templates
+    |
+    ├── layout.jade
+    ├── index.jade
+    ├── article.jade
+    ├── page.jade
+├── package.json
+├── blog.js</p>
+<p>after watch and templates:</p>
+<pre><code class="lang-javascript">Metalsmith(__dirname)
+  .use(collections({
+    articles: {
+      sortBy: &#39;date&#39;,
+      reverse: true
+    },
+    pages: {
+    }
+  }))
+  .use(coffee())
+  .use(drafts())
+  .use(markdown({
+    smartypants: true
+  }))
+  .use(parseDate)
+  .use(permalinks({
+    pattern: &#39;:year/:month/:day/:title&#39;
+  }))
+  .use(excerpts())
+  .use(clean({
+    match: [&#39;.DS_Store&#39;]
+  }))
+  .use(templates({
+    engine: &#39;jade&#39;,
+    directory: &#39;templates&#39;
+  }))
+  .use(watch(&#39;../{templates,src}/**/*&#39;))
+  .build();
+</code></pre>
+<p>so now we have basic blog building tools</p>
+<p>so let us get fancy</p>
+<p>needed to move excerpts plugin up? fixed issues w/ it</p>
+<p>markdown has to happen before permalinks in order to get the path attr</p>
+<p>go figure, ignore is the same as clean. oops</p>
+<pre><code class="lang-javascript">Metalsmith(__dirname)
+  .use(ignore([
+    &#39;**/.DS_Store&#39;
+  ]))
+  .use(collections({
+    articles: {
+      sortBy: &#39;date&#39;,
+      reverse: true
+    },
+    pages: {
+    }
+  }))
+  .use(drafts())
+  .use(excerpts())
+  .use(parseDate)
+  .use(markdown({
+    smartypants: true
+  }))
+  // .use(clean({
+  //   match: [&#39;.DS_Store&#39;]
+  // }))
+  .use(templates({
+    engine: &#39;jade&#39;,
+    directory: &#39;templates&#39;
+  }))
+  .use(coffee())
+  .use(uglify({
+    concat: true
+  }))
+  .use(sass())
+  .use(permalinks({
+    pattern: &#39;:year/:month/:day/:title&#39;
+  }))
+  // .use(watch(&#39;../{templates,src}/**/*&#39;))
+  .build();
+</code></pre>
+<p>template should always go LAST, permalinks probably should go second to last , I think</p>
+<p>can’t get relative files in permalinked folder though… wtf?</p>
+<p>after much fiddling</p>
+<pre><code class="lang-javascript">var Metalsmith = require(&#39;metalsmith&#39;),
+    collections = require(&#39;metalsmith-collections&#39;),
+    coffee = require(&#39;metalsmith-coffee&#39;),
+    drafts = require(&#39;metalsmith-drafts&#39;),
+    excerpts = require(&#39;metalsmith-excerpts&#39;),
+    markdown = require(&#39;metalsmith-markdown&#39;),
+    permalinks = require(&#39;metalsmith-permalinks&#39;),
+    templates = require(&#39;metalsmith-templates&#39;),
+    watch = require(&#39;metalsmith-watch&#39;),
+    ignore = require(&#39;metalsmith-ignore&#39;),
+    sass = require(&#39;metalsmith-sass&#39;),
+    uglify = require(&#39;metalsmith-uglify&#39;),
+    autoprefixer = require(&#39;metalsmith-autoprefixer&#39;),
+    clean = require(&#39;./lib/clean&#39;);
+
+Metalsmith(__dirname)
+  .use(ignore([
+    &#39;**/.DS_Store&#39;,
+    &#39;styles/partials/**/*&#39;
+  ]))
+  .use(collections({
+    articles: {
+      sortBy: &#39;date&#39;,
+      reverse: true
+    },
+    pages: {}
+  }))
+  .use(drafts())
+  .use(excerpts())
+  .use(parseDate)
+  .use(markdown({
+    smartypants: true
+  }))
+  .use(sass())
+  .use(coffee())
+  .use(uglify({
+    concat: true
+  }))
+  .use(permalinks({
+    // pattern: &#39;:YYYY/:MM/:DD/:title&#39;
+    pattern: &#39;:year/:month/:day/:title&#39;
+  }))
+  .use(templates({
+    engine: &#39;jade&#39;
+  }))
+  // .use(watch(&#39;../{templates,src}/**/*&#39;))
+  .build();
+
+
+function parseDate(files, metalsmith, done) {
+  for(var file in files) {
+    if(files[file].date) {
+      var date = new Date(files[file].date);
+      files[file].year = date.getFullYear();
+      files[file].month = date.getMonth()+1;
+      files[file].day = date.getDate();
+    }
+  }
+  done();
+}
+</code></pre>
+<p>lessons learned:
+don’t put articles in subfolders if you want the css and js to get copied for realtive reference
+order of plugins MATTERS BIG TIME
+put templating last
+put permalinks before templating, but probably after most other things
+ignore works best if its first
+drafts, collections, and excerpt before markdown conversion to html
+finally, that metalsmith is a ways off of being able to replace most static site generators, but its super felxible and easy to extend
+linking to pages from posts still doesn’t work because it treats it as a relative path and the pages aren’t copied or anything like that</p>
+<p>I didn’t like how metalsmith watch was working, so I used gaze on my own to watch all the metalsmith src dirs, including templates, and to just run the entirety of metalsmith on each change. Has been working fine so far</p>
+<pre><code class="lang-javascript">var Metalsmith = require(&#39;metalsmith&#39;),
+    collections = require(&#39;metalsmith-collections&#39;),
+    coffee = require(&#39;metalsmith-coffee&#39;),
+    drafts = require(&#39;metalsmith-drafts&#39;),
+    excerpts = require(&#39;metalsmith-excerpts&#39;),
+    markdown = require(&#39;metalsmith-markdown&#39;),
+    permalinks = require(&#39;metalsmith-permalinks&#39;),
+    templates = require(&#39;metalsmith-templates&#39;),
+    watch = require(&#39;metalsmith-watch&#39;),
+    ignore = require(&#39;metalsmith-ignore&#39;),
+    sass = require(&#39;metalsmith-sass&#39;),
+    uglify = require(&#39;metalsmith-uglify&#39;),
+    autoprefixer = require(&#39;metalsmith-autoprefixer&#39;),
+    clean = require(&#39;./lib/clean&#39;),
+    gaze = require(&#39;gaze&#39;);
+
+var smithMetal = function() {
+  Metalsmith(__dirname)
+    .use(ignore([
+      &#39;**/.DS_Store&#39;,
+      &#39;styles/partials/**/*&#39;
+    ]))
+    .use(collections({
+      articles: {
+        sortBy: &#39;date&#39;,
+        reverse: true
+      },
+      pages: {}
+    }))
+    .use(drafts())
+    .use(excerpts())
+    .use(parseDate)
+    .use(markdown({
+      smartypants: true
+    }))
+    .use(sass())
+    .use(coffee())
+    .use(uglify({
+      concat: true
+    }))
+    .use(permalinks({
+      pattern: &#39;:year/:month/:day/:title&#39;
+    }))
+    .use(templates({
+      engine: &#39;jade&#39;
+    }))
+    .build();
+}
+
+smithMetal();
+
+gaze(&#39;{templates,src}/**/*&#39;, function(err, watcher) {
+  console.log(&#39;gazing at your folder...&#39;);
+  this.on(&#39;changed&#39;, function(filepath) {
+    console.log(filepath + &#39; was changed&#39;);
+  });
+  this.on(&#39;added&#39;, function(filepath) {
+    console.log(filepath + &#39; was added&#39;);
+  });
+  this.on(&#39;deleted&#39;, function(filepath) {
+    console.log(filepath + &#39; was deleted&#39;);
+  });
+  this.on(&#39;all&#39;, function(event, filepath) {
+    smithMetal();
+  });
+});
+
+function parseDate(files, metalsmith, done) {
+  for(var file in files) {
+    if(files[file].date) {
+      var date = new Date(files[file].date);
+      files[file].year = date.getFullYear();
+      files[file].month = date.getMonth()+1;
+      files[file].day = date.getDate();
+    }
+  }
+  done();
+}
+</code></pre>
+<p>major disadvantage: chaching is broken because of asset duplication :(</p>
+</article><div id="disqus_thread"></div><script type="text/javascript">/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+var disqus_shortname = 'parenthetical'; // required: replace example with your forum shortname
+/* * * DON'T EDIT BELOW THIS LINE * * */
+(function() {
+var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();</script><noscript>Please enable JavaScript to view the<a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript><a href="http://disqus.com" class="dsq-brlink">comments powered by<span class="logo-disqus">Disqus</span></a></div></div></div><footer><div class="container"><a href="/blog/">all articles</a><p>&copy; 2014 - deve.rs</p></div></footer><script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.0/highlight.min.js"></script><script src="//code.jquery.com/jquery-2.1.0.min.js"></script><script src="scripts/main.min.js"></script></body></html>

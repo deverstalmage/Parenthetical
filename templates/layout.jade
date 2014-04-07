@@ -1,0 +1,39 @@
+doctype html
+meta(http-equiv='Content-Type', content='text/html; charset=utf-8')
+html
+  head
+    title #{title} - Parenthetical
+    link(href='http://fonts.googleapis.com/css?family=Arvo:400,700,400italic,700italic|Bitter:400,700,400italic', rel='stylesheet', type='text/css')
+    link(href='//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css', rel='stylesheet', type='text/css')
+    link(href='styles/main.css', rel='stylesheet', type='text/css')
+
+    link(rel='shortcut icon', href='favicon.ico')
+    link(rel='apple-itouch-icon', href='favicon.png')
+    block head
+  body(class=link)
+    .wrap
+      header
+        .masthead
+          a(href='http://deve.rs/') deve.rs
+          a(href='/blog/').blog /blog/
+        .container
+          h1= (link ? link : title)
+          nav
+            ul
+              li
+                a(href='/blog/')
+                  i.fa.fa-home
+              li
+                a(href='/blog/about/')
+                  i.fa.fa-question-circle
+      #content
+        .container
+          block content
+    footer
+      .container
+          a(href='/blog/') all articles
+          p &copy; 2014 - deve.rs
+
+    script(src='//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.0/highlight.min.js')
+    script(src='//code.jquery.com/jquery-2.1.0.min.js')
+    script(src='scripts/main.min.js')

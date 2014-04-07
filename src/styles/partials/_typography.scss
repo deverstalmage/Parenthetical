@@ -1,0 +1,213 @@
+@font-face {
+  font-family: 'Dia';
+  src: url('../fonts/dia/dia-webfont.eot');
+  src: url('../fonts/dia/dia-webfont.eot?#iefix') format('embedded-opentype'),
+       url('../fonts/dia/dia-webfont.woff') format('woff'),
+       url('../fonts/dia/dia-webfont.ttf') format('truetype'),
+       url('../fonts/dia/dia-webfont.svg#diaregular') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  font: {
+    family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+    weight: 300;
+    size: 20px;
+  }
+  color: #333;
+  line-height: 1.3;
+
+  @media (max-width: 600px) {
+    font-size: 18px;
+  }
+}
+
+a {
+  transition: color .5s;
+  color: #333;
+  text-decoration: none;
+  border-bottom: 1px solid #333;
+
+  &:hover {
+    color: #FF3C00;
+    text-decoration: none;
+    border: 0;
+  }
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Garamond', 'Georgia', serif;
+  font-weight: normal;
+}
+
+
+header {
+  h1 {
+    color: #fff;
+    font-size: 3em;
+    font-family: 'Dia', 'Garamond', 'Georgia', serif;
+    text-transform: uppercase;
+
+    @media (max-width: 600px) {
+      font-size: 2em;
+    }
+  }
+}
+
+.articles {
+  a.title {
+    color: #333;
+    font-size: 2em;
+    font-family: 'Garamond', 'Georgia', serif;
+    border: 0;
+    line-height: 1.1;
+
+    &:hover {
+      color: #FF3C00;
+    }
+  }
+
+  li {
+    margin-bottom: 100px;
+  }
+
+  .excerpt {
+    margin-top: 1em;
+  }
+}
+
+time {
+  font-size: 16px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+
+Zenburn style from voldmar.ru (c) Vladimir Epifanov <voldmar@voldmar.ru>
+based on dark.css by Ivan Sagalaev
+
+*/
+
+.hljs {
+  display: block;
+  padding: 0.5em;
+  background: #3f3f3f;
+  color: #dcdcdc;
+}
+
+.hljs-keyword,
+.hljs-tag,
+.css .hljs-class,
+.css .hljs-id,
+.lisp .hljs-title,
+.nginx .hljs-title,
+.hljs-request,
+.hljs-status,
+.clojure .hljs-attribute {
+  color: #e3ceab;
+}
+
+.django .hljs-template_tag,
+.django .hljs-variable,
+.django .hljs-filter .hljs-argument {
+  color: #dcdcdc;
+}
+
+.hljs-number,
+.hljs-date {
+  color: #8cd0d3;
+}
+
+.dos .hljs-envvar,
+.dos .hljs-stream,
+.hljs-variable,
+.apache .hljs-sqbracket {
+  color: #efdcbc;
+}
+
+.dos .hljs-flow,
+.diff .hljs-change,
+.python .exception,
+.python .hljs-built_in,
+.hljs-literal,
+.tex .hljs-special {
+  color: #efefaf;
+}
+
+.diff .hljs-chunk,
+.hljs-subst {
+  color: #8f8f8f;
+}
+
+.dos .hljs-keyword,
+.python .hljs-decorator,
+.hljs-title,
+.haskell .hljs-type,
+.diff .hljs-header,
+.ruby .hljs-class .hljs-parent,
+.apache .hljs-tag,
+.nginx .hljs-built_in,
+.tex .hljs-command,
+.hljs-prompt {
+  color: #efef8f;
+}
+
+.dos .hljs-winutils,
+.ruby .hljs-symbol,
+.ruby .hljs-symbol .hljs-string,
+.ruby .hljs-string {
+  color: #dca3a3;
+}
+
+.diff .hljs-deletion,
+.hljs-string,
+.hljs-tag .hljs-value,
+.hljs-preprocessor,
+.hljs-pragma,
+.hljs-built_in,
+.hljs-javadoc,
+.smalltalk .hljs-class,
+.smalltalk .hljs-localvars,
+.smalltalk .hljs-array,
+.css .hljs-rules .hljs-value,
+.hljs-attr_selector,
+.hljs-pseudo,
+.apache .hljs-cbracket,
+.tex .hljs-formula,
+.coffeescript .hljs-attribute {
+  color: #cc9393;
+}
+
+.hljs-shebang,
+.diff .hljs-addition,
+.hljs-comment,
+.java .hljs-annotation,
+.hljs-template_comment,
+.hljs-pi,
+.hljs-doctype {
+  color: #7f9f7f;
+}
+
+.coffeescript .javascript,
+.javascript .xml,
+.tex .hljs-formula,
+.xml .javascript,
+.xml .vbscript,
+.xml .css,
+.xml .hljs-cdata {
+  opacity: 0.5;
+}
