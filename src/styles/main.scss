@@ -97,6 +97,25 @@ header {
   padding: 1em 0;
   min-height: 350px;
 
+  .article-list {
+    list-style: none;
+    margin: 50px 0 0 0;
+    padding: 0;
+
+    blockquote {
+      padding: 0;
+      margin: 0;
+    }
+
+    .continue {
+      float: right;
+    }
+
+    time {
+      display: block;
+    }
+  }
+
   article {
     p {
       margin: 1em 0;
@@ -118,25 +137,6 @@ header {
     height: 250px;
     margin: 0 auto;
     border-radius: 50%;
-  }
-}
-
-.articles {
-  list-style: none;
-  margin: 50px 0 0 0;
-  padding: 0;
-
-  blockquote {
-    padding: 0;
-    margin: 0;
-  }
-
-  .continue {
-    float: right;
-  }
-
-  time {
-    display: block;
   }
 }
 

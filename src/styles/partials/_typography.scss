@@ -37,8 +37,8 @@ a {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Garamond', 'Georgia', serif;
-  font-weight: normal;
+  font-family: 'Playfair Display', 'Garamond', 'Georgia', serif;
+  font-weight: 900;
 }
 
 
@@ -46,8 +46,6 @@ header {
   h1 {
     color: #fff;
     font-size: 3em;
-    font-family: 'Dia', 'Garamond', 'Georgia', serif;
-    text-transform: uppercase;
 
     @media (max-width: 600px) {
       font-size: 2em;
@@ -55,13 +53,24 @@ header {
   }
 }
 
-.articles {
+.parenthetical {
+  header {
+    h1 {
+      font-family: 'Dia', 'Garamond', 'Georgia', serif;
+      text-transform: uppercase;
+    }
+  }
+}
+
+
+.article-list {
   a.title {
     color: #333;
-    font-size: 2em;
-    font-family: 'Garamond', 'Georgia', serif;
+    font-size: 1.75em;
+    font-family: 'Playfair Display', 'Garamond', 'Georgia', serif;
     border: 0;
     line-height: 1.1;
+    font-weight: 900;
 
     &:hover {
       color: #FF3C00;

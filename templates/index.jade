@@ -1,7 +1,7 @@
 extends layout
 
 block content
-  ul.articles
+  ul.article-list
     each article in articles
       li
         a(href=article.path).title= article.title

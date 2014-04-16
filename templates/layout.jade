@@ -3,14 +3,14 @@ meta(http-equiv='Content-Type', content='text/html; charset=utf-8')
 html
   head
     title #{title} - Parenthetical
-    link(href='http://fonts.googleapis.com/css?family=Arvo:400,700,400italic,700italic|Bitter:400,700,400italic', rel='stylesheet', type='text/css')
+    link(href='http://fonts.googleapis.com/css?family=Arvo:400,700,400italic,700italic|Bitter:400,700,400italic|Playfair+Display:900', rel='stylesheet', type='text/css')
     link(href='//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css', rel='stylesheet', type='text/css')
     link(href='styles/main.css', rel='stylesheet', type='text/css')
 
     link(rel='shortcut icon', href='favicon.ico')
     link(rel='apple-itouch-icon', href='favicon.png')
     block head
-  body(class=link)
+  body(class='#{link} #{collection}')
     .wrap
       header
         .masthead
