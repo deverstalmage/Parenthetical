@@ -5,6 +5,6 @@ block content
     each article in articles
       li
         a(href=article.path).title= article.title
-        time(datetime=article.date)= article.date
+        time(datetime=article.date)= article.month + '/' + article.day + '/' + article.year
         blockquote.excerpt!= article.excerpt
         a(href=article.path).continue Continue reading &raquo;

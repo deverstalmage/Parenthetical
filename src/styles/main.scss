@@ -117,7 +117,7 @@ header {
   }
 
   article {
-    p {
+    p, h1, h2, h3, h4, h5, h6 {
       margin: 1em 0;
     }
 
@@ -125,6 +125,31 @@ header {
       code {
         font-size: 0.75em;
         overflow: scroll;
+      }
+    }
+  }
+
+  .bio {
+    margin-top: 1em;
+    overflow: hidden;
+    border-top: 1px solid #333;
+    padding-top: 1em;
+
+    .desc {
+      float: left;
+      width: 80%;
+
+      p {
+        margin: 1em 0;
+      }
+    }
+
+    .headshot {
+      float: left;
+      width: 20%;
+      padding: 0 1em 1em 0;
+      img {
+        max-width: 100%;
       }
     }
   }

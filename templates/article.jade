@@ -1,8 +1,17 @@
 extends layout
 
 block content
-  time(datetime=date)= 
+  time(datetime=date)= month + '/' + day + '/' + year
   article!= contents
+  aside.bio
+    .headshot
+      img(src='http://deve.rs/images/devers.jpg')
+    .desc
+      h2 Devers Talmage
+      p Devers is a web developer based in #[a(href='https://www.google.com/maps/place/Northampton,+MA', target='_blank') Northampton, MA] with over 5 years of professional experience. He currently works at #[a(href='https://represent.us/', target='_blank') Represent.Us], a leading non-profit in the anti-corruption movement.
+      p Website: 
+        a(href='http://deve.rs') deve.rs
+      
   #disqus_thread
   script(type='text/javascript').
     /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */

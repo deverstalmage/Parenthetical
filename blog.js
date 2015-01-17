@@ -45,6 +45,7 @@ var smithMetal = function() {
     .use(templates({
       engine: 'jade'
     }))
+    .destination('build')
     .build();
 }
 
