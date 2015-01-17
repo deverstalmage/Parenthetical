@@ -73,7 +73,7 @@ function parseDate(files, metalsmith, done) {
       var date = new Date(files[file].date);
       files[file].year = date.getFullYear();
       files[file].month = date.getMonth()+1;
-      files[file].day = date.getDate();
+      files[file].day = date.getDate()+1;
     }
   }
   done();

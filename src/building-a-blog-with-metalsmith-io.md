@@ -9,9 +9,13 @@ collection: articles
 
 Metalsmith is a Node.js module that facilitates the generation of static sites. It accomplishes this by generalizing a process of reading a directory of files, running some functions on the input of each file, and outputting the transformed files into a build directory. It derives its power from the simplicity of this process.
 
+### Why use Metalsmith?
+
 At its core, Metalsmith is very simple, but advanced functionality can be achieved through including and writing plugins. Every transformation on the input files is accomplished via a plugin: markdown-to-html conversion, image optimization, metadata reading and writing, and more. The plugin API is incredibly easy to learn as well. Writing a build script feels more coding than writing a configuration file, much like how a [Gulpfile](http://gulpjs.com/) looks in comparison to a [Gruntfile](http://gruntjs.com/).
 
 In this tutorial, I will use the JavaScript API to create a simple static blog that uses Sass, CoffeeScript, and Jade. The blog has pretty URLs and a sensible site structure, and employs CSS/JS concatenation and minification.
+
+### Setup and directory structure
 
 The first step I took was setting up my project directory structure. The Metalsmith docs say that the default source folder is `src` so I laid out my directories as such:
 
@@ -22,6 +26,8 @@ The first step I took was setting up my project directory structure. The Metalsm
 |-- package.json
 |-- blog.js
 ```
+
+### The plugins
 
 From there, I started to go through the plugins listed on the Metalsmith website, and determined a collection that I thought would be useful for a blog. The final plugins I settled on were:
 
@@ -39,6 +45,8 @@ From there, I started to go through the plugins listed on the Metalsmith website
  - autoprefixer
 
 After many hours of fiddling, I managed to order the plugins in a way that garnered accurate output in the /build directory. In many cases, calling one plugin before another would mangle the output. For instance, running the excerpt plugin after the markdown plugin won't work: the excerpt data isn't attached to the metalsmith object and no error is shown as to why.
+
+### Initial configuration
 
 The actual plugin configuration is minimal and quite straight-forward. Most of the plugins offer little to no configuration; the default settings for the plugins are often the general usecase, and fit well with a static blog. The plugin chain I am using for the blog is:
 
@@ -75,6 +83,8 @@ Metalsmith(__dirname)
   .build();
 ```
 
+### A custom plugin
+
 The first plugin, `ignore`, simply prevents style partials and .DS_Store files from ending up in the final build. `collections` creates two categories of documents on the blog: pages and articles. `drafts` enables the draft status for documents, while `excerpts` exposes the first line of each document to the global metalsmith object. `parseDate` is a function I wrote to allow a more fine-tuned approach to permalink structure. The function simply extracts the day, month, and year of the timestamp on each document, and adds them to the metalsmith object.
 
 ```javascript
@@ -92,6 +102,8 @@ function parseDate(files, metalsmith, done) {
 ```
 
 `markdown` is the main component of the blog, and translates markdown syntax to html. `sass`, `coffee`, and `uglify` handle Sass interpretation, as well as CoffeeScript translating and minification, respectively. `permalinks` takes each of your documents, renames them index.html, and places them in the appropriate directory. In this case, I'm using data from the `parseDate` plugin because I couldn't get the native date handling from `permalinks` like the docs show. `templates` allows for the use of [jade](http://jade-lang.com/) templates for the front end.
+
+### Using a non-Metalsmith module
 
 Since I couldn't get metalsmith `watch` reliably working, I added the `gaze` module to my project to watch the source directory for changes to any of the files. `gaze` then triggers the main metalsmith build function (`buildBlog()`). Combined, my final metalsmith file looks like:
 
@@ -176,6 +188,8 @@ function parseDate(files, metalsmith, done) {
   done();
 }
 ```
+
+### Final notes
 
 Metalsmith is an interesting build tool that offers you a lot of flexibility. Some thoughts, in no particular order:
 

@@ -97,6 +97,12 @@ header {
   padding: 1em 0;
   min-height: 350px;
 
+  time {
+    display: block;
+    text-align: right;
+    margin: 0.25em 0;
+  }
+
   .article-list {
     list-style: none;
     margin: 50px 0 0 0;
@@ -109,10 +115,6 @@ header {
 
     .continue {
       float: right;
-    }
-
-    time {
-      display: block;
     }
   }
 
