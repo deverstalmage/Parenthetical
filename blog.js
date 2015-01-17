@@ -15,6 +15,7 @@ var Metalsmith = require('metalsmith'),
     gaze = require('gaze');
 
 var smithMetal = function() {
+  console.log('running metalsmith');
   Metalsmith(__dirname)
     .use(ignore([
       '**/.DS_Store',
@@ -39,7 +40,7 @@ var smithMetal = function() {
       concat: true
     }))
     .use(permalinks({
-      pattern: ':year/:month/:day/:title'
+      pattern: ':year/:month/:title'
     }))
     .use(templates({
       engine: 'jade'
