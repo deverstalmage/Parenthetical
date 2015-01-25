@@ -1,8 +1,8 @@
 ---
 title: CSS fade-in animation
-collection: articles
+collection: posts
 date: 2014-10-10
-template: article.jade
+template: post.jade
 ---
 
 Sass code (SCSS syntax) for a clean & simple drop down and fade in animation, suitable for any content you want to draw attention to as it is dropped into a page. This uses CSS keyframe animation, so it's not compatible with IE9 or lower.

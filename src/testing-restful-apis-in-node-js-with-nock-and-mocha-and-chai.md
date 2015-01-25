@@ -1,8 +1,8 @@
 ---
 title: Testing REST APIs in Node.js with Nock
-collection: articles
+collection: posts
 date: 2014-03-31
-template: article.jade
+template: post.jade
 ---
 
 As the lead, and more often than not, the only, developer at the [small non-profit](https://represent.us) that I work for, I get near-unmitigated say over the technology stack I work with. While the lack of peer review can be a major bummer, the freedom of technology is a pretty great consolation prize. Though I may be boarding the bandwagon a handful of years late, [Node.js](http://nodejs.org) has recently become the newest server-side curiosity for me to experiment with.

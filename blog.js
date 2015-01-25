@@ -22,7 +22,7 @@ var smithMetal = function() {
       'styles/partials/**/*'
     ]))
     .use(collections({
-      articles: {
+      posts: {
         sortBy: 'date',
         reverse: true
       },

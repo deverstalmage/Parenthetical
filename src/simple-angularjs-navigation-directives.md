@@ -1,8 +1,8 @@
 ---
 title: Simple AngularJS navigation directives
-collection: articles
+collection: posts
 date: 2015-01-16
-template: article.jade
+template: post.jade
 ---
 
 It seems that every time I build out an app or website with AngularJS, I'm always at a loss for what to do about navigation. Here are two simple but effective directive you can apply to navigation you already have on your site - this is especially useful if you are dropping AngularJS into a site that already exists, or you need to use specific markup that has already been written.

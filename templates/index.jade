@@ -1,10 +1,11 @@
 extends layout
 
 block content
-  ul.article-list
-    each article in articles
+  ul.post-list
+    each post in posts
       li
-        a(href=article.path).title= article.title
-        time(datetime=article.date)= article.month + '/' + article.day + '/' + article.year
-        blockquote.excerpt!= article.excerpt
-        a(href=article.path).continue Continue reading &raquo;
+        article
+          a(href=post.path).post-title= post.title
+          time(datetime=post.date)= post.month + '/' + post.day + '/' + post.year
+          blockquote.post-excerpt!= post.excerpt
+          a(href=post.path).u-right Continue reading &raquo;

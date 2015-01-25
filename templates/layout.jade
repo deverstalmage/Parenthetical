@@ -1,5 +1,6 @@
 doctype html
 meta(http-equiv='Content-Type', content='text/html; charset=utf-8')
+meta(name='viewport', content='width=device-width, initial-scale=1')
 html
   head
     title #{title} - Parenthetical
@@ -11,14 +12,14 @@ html
     link(rel='apple-itouch-icon', href='favicon.png')
     block head
   body(class='#{link} #{collection}')
-    .wrap
-      header
-        .masthead
+    .l-wrap
+      header.l-header
+        .l-masthead
           a(href='http://deve.rs/') deve.rs
           a(href='/blog/').blog /blog/
-        .container
+        .l-container
           h1= (link ? link : title)
-          nav
+          nav.l-navigation
             ul
               li
                 a(href='/blog/')
@@ -26,13 +27,13 @@ html
               li
                 a(href='/blog/about/')
                   i.fa.fa-question-circle
-      #content
-        .container
+      main.l-content
+        .l-container
           block content
-    footer
-      .container
-          a(href='/blog/') all articles
-          p &copy; 2015 - deve.rs
+    footer.l-footer
+      .l-container
+          a(href='/blog/').u-right all articles
+          div &copy; 2015 - deve.rs
 
     script(src='//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.0/highlight.min.js')
     script(src='//code.jquery.com/jquery-2.1.0.min.js')

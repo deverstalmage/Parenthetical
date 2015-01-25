@@ -1,8 +1,8 @@
 ---
 title: Building a blog with Metalsmith
 date: 2014-04-06
-template: article.jade
-collection: articles
+template: post.jade
+collection: posts
 ---
 
 *Note: this post was written in April of 2014. Since then, Metalsmith has reached the 1.0 milestone, and therefore some of this information may be outdated. Make sure to check the docs before trying anything described below*
