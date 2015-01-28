@@ -1,5 +1,5 @@
 ---
-title: About This Blog
+title: About this blog
 template: page.jade
 collection: pages
 link: about
@@ -12,4 +12,4 @@ I work as the senior web developer at [Represent.Us](https://represent.us/), a n
 
 You can check out my [github](https://github.com/deverstalmage/), [bitbucket](https://bitbucket.org/devers),  [instagram](http://instagram.com/devers) or [whatever](https://soundcloud.com/devers).
 
-I found the [background images I'm using on imgur](http://imgur.com/a/Onif6).
+I found the [background images that I'm using on imgur](http://imgur.com/a/Onif6).

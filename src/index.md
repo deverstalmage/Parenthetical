@@ -1,5 +1,6 @@
 ---
-title: Home
+title: Parenthetical
+htmltitle: Index
 link: parenthetical
 template: index.jade
 ---

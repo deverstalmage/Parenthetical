@@ -50,8 +50,17 @@
 
 .l-navigation {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  padding: 0.25em;
+  top: 0;
+  left: 0;
+  width: 100%;
+
+  @media #{$medium-size} {
+    top: 10px;
+    right: 10px;
+    left: auto;
+    width: 60px;
+  }
 
   ul {
     list-style: none;
@@ -59,7 +68,6 @@
 
     li {
       display: inline-block;
-      margin-left: 10px;
     }
   }
 }
@@ -68,6 +76,12 @@
   position: absolute;
   top: 10px;
   left: 10px;
+  font-size: 0.75em;
+  display: none;
+
+  @media #{$medium-size} {
+    display: block;
+  }
 }
 
 
@@ -76,7 +90,7 @@
 
 .l-content {
   background: #fff;
-  padding: 1em 0;
+  padding: 2em 0;
   min-height: 350px;
 }
 

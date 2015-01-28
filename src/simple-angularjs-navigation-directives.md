@@ -5,7 +5,7 @@ date: 2015-01-16
 template: post.jade
 ---
 
-It seems that every time I build out an app or website with AngularJS, I'm always at a loss for what to do about navigation. Here are two simple but effective directive you can apply to navigation you already have on your site - this is especially useful if you are dropping AngularJS into a site that already exists, or you need to use specific markup that has already been written.
+It seems that every time I build out an app or website using AngularJS, I'm always at a loss for how to implement sensible navigation. Here are two simple but effective directives you can apply to navigation on your site - this is especially useful if you are dropping AngularJS into a site that already exists, or you need to use specific markup that has already been written.
 
 ### The mechanics
 

@@ -21,6 +21,10 @@
   &:hover {
     color: #FF3C00;
   }
+
+  @media #{$medium-size} {
+    font-size: 1.75em;
+  }
 }
 .post-excerpt {
   margin-top: 1em;
@@ -72,9 +76,18 @@
   img {
     float: right;
     display: block;
-    height: 250px;
-    margin: 0 auto;
     border-radius: 50%;
+    height: 5em;
+    margin: 0 0 0.5em 0.5em;
+
+    @media #{$medium-size} {
+      height: 10em;
+    }
+
+    @media #{$large-size} {
+      height: 15em;
+      margin: 0 0 1em 1em;
+    }
   }
 }
 

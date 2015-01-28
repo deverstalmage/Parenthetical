@@ -3,7 +3,7 @@ meta(http-equiv='Content-Type', content='text/html; charset=utf-8')
 meta(name='viewport', content='width=device-width, initial-scale=1')
 html
   head
-    title #{title} - Parenthetical
+    title= (htmltitle ? htmltitle : title) + ' - Parenthetical'
     link(href='http://fonts.googleapis.com/css?family=Arvo:400,700,400italic,700italic|Bitter:400,700,400italic|Playfair+Display:900', rel='stylesheet', type='text/css')
     link(href='//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css', rel='stylesheet', type='text/css')
     link(href='styles/main.css', rel='stylesheet', type='text/css')
@@ -17,16 +17,17 @@ html
         .l-masthead
           a(href='http://deve.rs/') deve.rs
           a(href='/blog/').blog /blog/
+        nav.l-navigation
+          ul
+            li.u-left
+              a(href='/blog/')
+                i.fa.fa-home
+            li.u-right
+              a(href='/blog/about/')
+                i.fa.fa-question-circle
         .l-container
-          h1= (link ? link : title)
-          nav.l-navigation
-            ul
-              li
-                a(href='/blog/')
-                  i.fa.fa-home
-              li
-                a(href='/blog/about/')
-                  i.fa.fa-question-circle
+          h1= (title ? title : link)
+        
       main.l-content
         .l-container
           block content
